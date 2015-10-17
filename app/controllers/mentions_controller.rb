@@ -5,9 +5,19 @@ class MentionsController < ApplicationController
   # GET /mentions.json
   def index
     @mentions = Mention.all
+    logger.debug "MENTIONS INDEX #{@mentions.count}"
     options = {}
     @new_mentions = TwitterClient.mentions_timeline(options)
     # logger.debug "MENTIONS #{@new_mentions}"
+  end
+
+  # GET /mentions/fetch
+  def fetch
+    @new_mentions = TwitterClient.mentions_timeline
+    @new_mentions.each do |mention|
+      create mention
+    end
+    # logger.debug "FETCH"
   end
 
   # GET /mentions/1
@@ -26,18 +36,22 @@ class MentionsController < ApplicationController
 
   # POST /mentions
   # POST /mentions.json
-  def create
-    @mention = Mention.new(mention_params)
+  def create new_mention
+    logger.debug "CREATE NEW MENTION - ARGUMENT #{new_mention}"
+    @mention = Mention.new({ body: new_mention.text })
+    # @mention = Mention.new(mention_params)
+    logger.debug "CREATE NEW MENTION #{@mention}"
+    @mention.save
 
-    respond_to do |format|
-      if @mention.save
-        format.html { redirect_to @mention, notice: 'Mention was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @mention }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @mention.errors, status: :unprocessable_entity }
-      end
-    end
+    # respond_to do |format|
+    #   if @mention.save
+    #     format.html { redirect_to @mention, notice: 'Mention was successfully created.' }
+    #     format.json { render action: 'show', status: :created, location: @mention }
+    #   else
+    #     format.html { render action: 'new' }
+    #     format.json { render json: @mention.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /mentions/1

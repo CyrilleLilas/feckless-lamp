@@ -1,5 +1,7 @@
 FecklessLamp::Application.routes.draw do
-  resources :mentions
+  root 'mentions#index'
+  get 'mentions/fetch', to: 'mentions#fetch'
+  # resources :mentions
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
