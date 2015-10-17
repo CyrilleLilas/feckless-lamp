@@ -7,7 +7,12 @@ $(function () {
 	console.log('document.ready');
 
 	function fetchMentions(event) {
+		var latestMention = $('.mention:first');
+
+
 		$.ajax('/mentions/fetch', { dataType: 'json',
+									data: { since_id: latestMention.data('tweet-id') },
+									type: 'post',
 									success: function (data) { console.log ('success', data); },
 									error: function () { console.log ('http request error'); },
 									 });

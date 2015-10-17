@@ -6,14 +6,17 @@ class MentionsController < ApplicationController
   def index
     @mentions = Mention.all
     logger.debug "MENTIONS INDEX #{@mentions.count}"
-    options = {}
-    @new_mentions = TwitterClient.mentions_timeline(options)
+    @new_mentions = TwitterClient.mentions_timeline
     # logger.debug "MENTIONS #{@new_mentions}"
   end
 
   # GET /mentions/fetch
   def fetch
-    @new_mentions = TwitterClient.mentions_timeline
+    options = {}
+
+    # logger.debug "ARGUMENTS #{fetch_params}"
+    @new_mentions = TwitterClient.mentions_timeline(fetch_params)
+    # logger.debug "MENTIONS #{@new_mentions}"
     @new_mentions.each do |mention|
       create mention
     end
@@ -87,5 +90,9 @@ class MentionsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def mention_params
       params.require(:mention).permit(:body)
+    end
+
+    def fetch_params
+      params.permit(:since_id)
     end
 end

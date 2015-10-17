@@ -2,7 +2,7 @@
   <a class="fetch" href="/mentions/fetch">Fetch</a>
 
     <% @new_mentions.each do |mention| %>
-<div>
+<div class="mention" data-tweet-id="<%= mention.id %>">
   <div>
       <a href="<%= Twitter_uri %>/<%= mention.user.screen_name %>" data-user-id="<%= mention.user.id %>">
         <img src="<%= mention.user.profile_image_url %>" alt="">
