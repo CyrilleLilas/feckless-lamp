@@ -1,27 +1,19 @@
 <h1>Listing mentions</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Body</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+    <% @new_mentions.each do |mention| %>
+<div>
+  <div>
+      <a href="<%= Twitter_uri %>/<%= mention.user.screen_name %>" data-user-id="<%= mention.user.id %>">
+        <img src="<%= mention.user.profile_image_url %>" alt="">
+        <strong><%= mention.user.name %></strong>
+        <span>@<b><%= mention.user.screen_name %></b></span>
+      </a>
+      <small>
+        <a href="<%= Twitter_uri %>/<%= mention.user.screen_name %>/status/<%= mention.id %>" title="<%= l mention.created_at %>"><%= l mention.created_at %></a>
+      </small>
+  </div>
 
-  <tbody>
-    <% @mentions.each do |mention| %>
-      <tr>
-        <td><%= mention.body %></td>
-        <td><%= link_to 'Show', mention %></td>
-        <td><%= link_to 'Edit', edit_mention_path(mention) %></td>
-        <td><%= link_to 'Destroy', mention, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+  <p><%= mention.text %> </p>
+  <button type="button">Reply</button>
+</div>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Mention', new_mention_path %>

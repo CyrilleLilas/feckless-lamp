@@ -5,6 +5,9 @@ class MentionsController < ApplicationController
   # GET /mentions.json
   def index
     @mentions = Mention.all
+    options = {}
+    @new_mentions = TwitterClient.mentions_timeline(options)
+    # logger.debug "MENTIONS #{@new_mentions}"
   end
 
   # GET /mentions/1
