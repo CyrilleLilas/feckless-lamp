@@ -1,4 +1,1 @@
-json.array!(@new_mentions) do |mention|
-  json.extract! mention, :id, :text
-  json.url mention_url(mention, format: :json)
-end
+json.array! @new_mentions, :tweet_id, :user_id, :name, :screen_name, :text, :mentioned_at, :profile_image_url

@@ -1,17 +1,17 @@
 <h1>Listing mentions</h1>
   <a class="fetch" href="/mentions/fetch">Fetch</a>
 
-    <% @new_mentions.each do |mention| %>
-<div class="mention" data-tweet-id="<%= mention.id %>">
+    <% @mentions.each do |mention| %>
+<div class="mention" data-tweet-id="<%= mention.tweet_id %>">
   <div>
-      <a href="<%= Twitter_uri %>/<%= mention.user.screen_name %>" data-user-id="<%= mention.user.id %>">
-        <img src="<%= mention.user.profile_image_url %>" alt="">
-        <strong><%= mention.user.name %></strong>
-        <span>@<b><%= mention.user.screen_name %></b></span>
+      <a href="<%= Twitter_uri %>/<%= mention.screen_name %>" data-user-id="<%= mention.user_id %>">
+        <img src="<%= mention.profile_image_url %>" alt="">
+        <strong><%= mention.name %></strong>
+        <span>@<b><%= mention.screen_name %></b></span>
       </a>
       <small>
-        <a href="<%= Twitter_uri %>/<%= mention.user.screen_name %>/status/<%= mention.id %>" title="<%= l mention.created_at %>">
-          <%= l(mention.created_at, format: :short) %></a>
+        <a href="<%= Twitter_uri %>/<%= mention.screen_name %>/status/<%= mention.tweet_id %>" title="<%= l mention.mentioned_at %>">
+          <%= l(mention.mentioned_at, format: :short) %></a>
       </small>
   </div>
 

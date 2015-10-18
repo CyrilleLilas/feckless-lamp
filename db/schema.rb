@@ -25,4 +25,6 @@ ActiveRecord::Schema.define(version: 20151017065154) do
     t.datetime "updated_at"
   end
 
+  add_index "mentions", ["tweet_id"], name: "index_mentions_on_tweet_id", unique: true
+
 end

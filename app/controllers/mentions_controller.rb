@@ -5,22 +5,18 @@ class MentionsController < ApplicationController
   # GET /mentions.json
   def index
     @mentions = Mention.all
-    logger.debug "MENTIONS INDEX #{@mentions.count}"
-    @new_mentions = TwitterClient.mentions_timeline
-    # logger.debug "MENTIONS #{@new_mentions}"
+    # logger.debug "MENTIONS INDEX #{@mentions.count}"
   end
 
   # GET /mentions/fetch
   def fetch
-    options = {}
-
     # logger.debug "ARGUMENTS #{fetch_params}"
-    @new_mentions = TwitterClient.mentions_timeline(fetch_params)
-    # logger.debug "MENTIONS #{@new_mentions}"
-    @new_mentions.each do |mention|
-      create mention
+    new_mentions = TwitterClient.mentions_timeline(fetch_params)
+    @new_mentions = []
+    new_mentions.each_index do |i|
+      @new_mentions[i] = create new_mentions[i]
     end
-    # logger.debug "FETCH"
+    # logger.debug "NEW_MENTIONS #{@new_mentions}"
   end
 
   # GET /mentions/1
@@ -40,21 +36,15 @@ class MentionsController < ApplicationController
   # POST /mentions
   # POST /mentions.json
   def create new_mention
-    logger.debug "CREATE NEW MENTION - ARGUMENT #{new_mention}"
-    @mention = Mention.new({ body: new_mention.text })
-    # @mention = Mention.new(mention_params)
-    logger.debug "CREATE NEW MENTION #{@mention}"
-    @mention.save
-
-    # respond_to do |format|
-    #   if @mention.save
-    #     format.html { redirect_to @mention, notice: 'Mention was successfully created.' }
-    #     format.json { render action: 'show', status: :created, location: @mention }
-    #   else
-    #     format.html { render action: 'new' }
-    #     format.json { render json: @mention.errors, status: :unprocessable_entity }
-    #   end
-    # end
+    mention = Mention.new({ tweet_id: new_mention.id,
+      user_id: new_mention.user.id,
+      name: new_mention.user.name,
+      screen_name: new_mention.user.screen_name,
+      text: new_mention.text,
+      mentioned_at: new_mention.created_at,
+      profile_image_url: new_mention.user.profile_image_url.to_s })
+    mention.save
+    return mention
   end
 
   # PATCH/PUT /mentions/1

@@ -7,5 +7,6 @@ class CreateMentions < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :mentions, :tweet_id, :unique => true
   end
 end
