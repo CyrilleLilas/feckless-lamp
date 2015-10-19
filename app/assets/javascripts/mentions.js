@@ -10,37 +10,21 @@ $(function () {
 
 	var twitterURI = 'http://twitter.com/';
 
-	function fillTemplate(mention) {
-		var newMention = $('#template').children('.mention').clone();
-
-		newMention.data('tweet-id', mention.tweet_id);
-		$('.user', newMention).data('user-screen-name', mention.screen_name);
-		$('a[data-user-id]', newMention).data('user-id', mention.user_id).prop('href', twitterURI + mention.screen_name);
-		$('.user img', newMention).prop('src', mention.profile_image_url);
-		$('.name', newMention).text(mention.name);
-		$('.screen-name', newMention).text(mention.screen_name);
-		$('.date', newMention).text(mention.mentioned_at).prop('href', twitterURI + mention.screen_name + '/status/' + mention.tweet_id);
-		$('p', newMention).text(mention.text);
-
-		newMention.prependTo($('.mentions'));
-	}
-
 	function fetchMentions(event) {
-		var latestMention = $('.mention:first'),
-			i;
-
-
 		$.ajax('/mentions/fetch', { dataType: 'json',
-									data: { since_id: latestMention.data('tweet-id') },
+									data: { since_id: $('.mention:first').data('tweet-id') },
 									type: 'post',
 									success: function (data) {
-										console.log ('success', data);
+										var i;
+
 										for (i = 0; i < data.length; i += 1) {
-											fillTemplate(data[i]);
+											new Mention(data[i]).add();
 										}
 									},
-									error: function () { console.log ('http request error'); },
-									 });
+									error: function () {
+										console.log ('http request error');
+									},
+								 });
 		event.preventDefault();
 	}
 
@@ -50,7 +34,7 @@ $(function () {
 			textarea = $('textarea[name="reply"]', replyForm);
 
 		textarea.val('@' + $('.user', mention).data('user-screen-name') + ' ');
-		replyForm.insertAfter(this);
+		replyForm.appendTo($('.reply', mention));
 		textarea.caretToEnd();
 	}
 
@@ -59,6 +43,26 @@ $(function () {
 
 		$('input[name="in_reply_to_status_id"]', this).val(id);
 		return true;
+	}
+
+	function Mention(mention) {
+		var $this = $('#template').children('.mention').clone();
+
+		function add() {
+			$this.prependTo($('.mentions'));
+
+		}
+
+		$this.data('tweet-id', mention.tweet_id);
+		$('.user', $this).data('user-screen-name', mention.screen_name);
+		$('a.profile', $this).prop('href', twitterURI + mention.screen_name);
+		$('.user img', $this).prop('src', mention.profile_image_url);
+		$('.name', $this).text(mention.name);
+		$('.screen-name', $this).text(mention.screen_name);
+		$('.date', $this).text(mention.l_mentioned_at).prop('href', twitterURI + mention.screen_name + '/status/' + mention.tweet_id);
+		$('.text', $this).text(mention.text);
+
+		this.add = add;
 	}
 });
 

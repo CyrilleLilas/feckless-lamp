@@ -4,4 +4,10 @@ class Mention < ActiveRecord::Base
 	validates :text, length: { maximum: 140 }
 	validates :profile_image_url, length: { maximum: 2000 }
 	validates_uniqueness_of :tweet_id
+	def l_mentioned_at
+		if mentioned_at
+			l = I18n.l(self.mentioned_at, format: :short)
+		end
+		l || DateTime.new
+	end
 end

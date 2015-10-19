@@ -6,17 +6,18 @@ class MentionsController < ApplicationController
   def index
     @mentions = Mention.all.order(tweet_id: :desc)
     # logger.debug "MENTIONS INDEX #{@mentions.count}"
+    @template_mention = Mention.new
   end
 
   # GET /mentions/fetch
   def fetch
     # logger.debug "ARGUMENTS #{fetch_params}"
-    new_mentions = TwitterClient.mentions_timeline(fetch_params)
+    new_mentions = TwitterClient.mentions_timeline(fetch_params).reverse!
     @new_mentions = []
     new_mentions.each_index do |i|
+      # logger.debug "NEW_MENTION_ID #{new_mentions[i].id}"
       @new_mentions[i] = create new_mentions[i]
     end
-    # logger.debug "NEW_MENTIONS #{@new_mentions}"
   end
 
   def reply
