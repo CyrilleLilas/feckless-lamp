@@ -3,12 +3,18 @@ $(document).on('page:load', function () {
 });
 
 $(function () {
-	$('body').on('click', 'a.fetch', fetchMentions);
-	$('.mention').on('click', 'button', showReplyForm);
-	$('#replyForm').submit(submitReply);
-	console.log('document.ready');
-
 	var twitterURI = 'http://twitter.com/';
+
+	function eventListeners() {
+		$('.fetch-btn').click(fetchMentions);
+		$('.mentions').on('click', '.reply-btn', showReplyForm);
+		$('#replyForm').submit(submitReply);
+		$('textarea[name="reply"]').click(updateCounter).keydown(updateCounter).on('paste', 
+			function (event) {
+				console.log(event);
+				setTimeout(updateCounter.apply(this), 0);
+			});
+	}
 
 	function fetchMentions(event) {
 		$.ajax('/mentions/fetch', { dataType: 'json',
@@ -28,21 +34,51 @@ $(function () {
 		event.preventDefault();
 	}
 
+	function updateCounter() {
+		renderCharsLimit($(this).closest('form'));
+	}
+
+	function renderCharsLimit($form) {
+		var textarea = $('textarea[name="reply"]', $form),
+			countElem = $('span.count', $form),
+			remainingChars = 140 - textarea.val().length,
+			isLimitExceded = remainingChars <= 0;
+
+		countElem.text(remainingChars)
+			.toggleClass('text-danger', isLimitExceded);
+		$('.tweet-btn', $form).prop('disabled', isLimitExceded);
+	}
+
 	function showReplyForm() {
 		var replyForm = $('#replyForm'),
 			mention = $(this).closest('.mention'),
 			textarea = $('textarea[name="reply"]', replyForm);
 
-		textarea.val('@' + $('.user', mention).data('user-screen-name') + ' ');
-		replyForm.appendTo($('.reply', mention));
-		textarea.caretToEnd();
+		function reset() {
+			textarea.val('@' + $('.user', mention).data('user-screen-name') + ' ');
+			renderCharsLimit(replyForm);
+		}
+
+		if ($('#replyForm', mention). length < 1) {
+			reset();
+			replyForm.appendTo($('.reply', mention));
+			textarea.caretToEnd();
+		} else {
+			textarea.focus();
+		}
 	}
 
 	function submitReply() {
-		var id = $(this).closest('.mention').data('tweet-id');
+		var id = $(this).closest('.mention').data('tweet-id'),
+			submit = true;
 
 		$('input[name="in_reply_to_status_id"]', this).val(id);
-		return true;
+		
+		if ($('textarea[name="reply"]').val().length > 140) {
+			submit = false;
+		}
+
+		return submit;
 	}
 
 	function Mention(mention) {
@@ -64,6 +100,8 @@ $(function () {
 
 		this.add = add;
 	}
+
+	eventListeners();
 });
 
 (function () {
