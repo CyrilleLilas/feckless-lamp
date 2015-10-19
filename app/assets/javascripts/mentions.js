@@ -14,6 +14,7 @@ $(function () {
 		var newMention = $('#template').children('.mention').clone();
 
 		newMention.data('tweet-id', mention.tweet_id);
+		$('.user', newMention).data('user-screen-name', mention.screen_name);
 		$('a[data-user-id]', newMention).data('user-id', mention.user_id).prop('href', twitterURI + mention.screen_name);
 		$('.user img', newMention).prop('src', mention.profile_image_url);
 		$('.name', newMention).text(mention.name);
@@ -22,7 +23,6 @@ $(function () {
 		$('p', newMention).text(mention.text);
 
 		newMention.prependTo($('.mentions'));
-		console.log(newMention.data());
 	}
 
 	function fetchMentions(event) {
@@ -45,14 +45,19 @@ $(function () {
 	}
 
 	function showReplyForm() {
-		$('#replyForm').insertAfter(this);
+		var replyForm = $('#replyForm'),
+			mention = $(this).closest('.mention'),
+			textarea = $('textarea[name="reply"]', replyForm);
+
+		textarea.val('@' + $('.user', mention).data('user-screen-name') + ' ');
+		replyForm.insertAfter(this);
+		textarea.caretToEnd();
 	}
 
 	function submitReply() {
-		var id = $(this).closest('.mention').data('tweet_id');
+		var id = $(this).closest('.mention').data('tweet-id');
 
 		$('input[name="in_reply_to_status_id"]', this).val(id);
-
 		return true;
 	}
 });

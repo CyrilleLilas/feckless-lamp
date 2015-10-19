@@ -1,6 +1,7 @@
 FecklessLamp::Application.routes.draw do
   root 'mentions#index'
   post 'mentions/fetch', to: 'mentions#fetch'
+  post 'mentions/reply', to: 'mentions#reply'
   # resources :mentions
 
   # The priority is based upon order of creation: first created -> highest priority.

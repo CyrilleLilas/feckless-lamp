@@ -4,7 +4,7 @@ class MentionsController < ApplicationController
   # GET /mentions
   # GET /mentions.json
   def index
-    @mentions = Mention.all
+    @mentions = Mention.all.order(tweet_id: :desc)
     # logger.debug "MENTIONS INDEX #{@mentions.count}"
   end
 
@@ -17,6 +17,15 @@ class MentionsController < ApplicationController
       @new_mentions[i] = create new_mentions[i]
     end
     # logger.debug "NEW_MENTIONS #{@new_mentions}"
+  end
+
+  def reply
+    reply = TwitterClient.update(reply_params[:reply], { in_reply_to_status_id: reply_params[:in_reply_to_status_id] })
+    # logger.debug "REPLY #{reply}"
+    respond_to do |format|
+      format.html { redirect_to '/' }
+      format.json { head :no_content }
+    end
   end
 
   # GET /mentions/1
@@ -84,5 +93,9 @@ class MentionsController < ApplicationController
 
     def fetch_params
       params.permit(:since_id)
+    end
+
+    def reply_params
+      params.permit(:reply, :in_reply_to_status_id)
     end
 end

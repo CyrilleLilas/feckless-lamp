@@ -5,7 +5,7 @@
 
     <% @mentions.each do |mention| %>
 <div class="mention" data-tweet-id="<%= mention.tweet_id %>">
-  <div class="user">
+  <div class="user" data-user-screen-name="<%= mention.screen_name %>">
       <a href="<%= Twitter_uri %>/<%= mention.screen_name %>" data-user-id="<%= mention.user_id %>">
         <img src="<%= mention.profile_image_url %>" alt="">
         <strong class="name"><%= mention.name %></strong>
@@ -25,7 +25,7 @@
 
   <div class="hidden" id="template">
     <div class="mention" data-tweet-id="">
-      <div class="user">
+      <div class="user" data-user-screen-name="">
           <a href="" data-user-id="">
             <img src="" alt="">
             <strong class="name"></strong>
