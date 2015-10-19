@@ -1,0 +1,45 @@
+<h1>Listing mentions</h1>
+  <a class="fetch" href="/mentions/fetch">Fetch</a>
+
+  <div class="mentions">
+
+    <% @mentions.each do |mention| %>
+<div class="mention" data-tweet-id="<%= mention.tweet_id %>">
+  <div class="user" data-user-screen-name="<%= mention.screen_name %>">
+      <a href="<%= Twitter_uri %>/<%= mention.screen_name %>" data-user-id="<%= mention.user_id %>">
+        <img src="<%= mention.profile_image_url %>" alt="">
+        <strong class="name"><%= mention.name %></strong>
+        <span>@<strong class="screen-name"><%= mention.screen_name %></strong></span>
+      </a>
+      <a href="<%= Twitter_uri %>/<%= mention.screen_name %>/status/<%= mention.tweet_id %>" class="date" title="<%= l mention.mentioned_at %>">
+        <%= l(mention.mentioned_at, format: :short) %>
+      </a>
+  </div>
+
+  <p><%= mention.text %> </p>
+  <button type="button">Reply</button>
+</div>
+    <% end %>
+
+  </div>
+
+  <div class="hidden" id="template">
+    <div class="mention" data-tweet-id="">
+      <div class="user" data-user-screen-name="">
+          <a href="" data-user-id="">
+            <img src="" alt="">
+            <strong class="name"></strong>
+            <span>@<strong class="screen-name"></strong></span>
+          </a>
+          <a href="" title="" class="date"></a>
+      </div>
+      <p></p>
+      <button type="button">Reply</button>
+    </div>
+
+    <%= form_tag("/mentions/reply", id: "replyForm") do %>
+      <input type="hidden" name="in_reply_to_status_id"/>
+      <textarea name="reply"></textarea>
+      <%= submit_tag 'Validate' %>
+    <% end %>
+  </div>
