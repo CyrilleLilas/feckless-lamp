@@ -5,9 +5,6 @@ class MentionsController < ApplicationController
   # GET /mentions.json
   def index
     @mentions = Mention.all.order(tweet_id: :desc)
-    @mentions.each do |m|
-      m.l_mentioned_at= l(m.mentioned_at, format: :short)
-    end
     # logger.debug "MENTIONS INDEX #{@mentions.count}"
     @template_mention = Mention.new
   end
@@ -15,12 +12,12 @@ class MentionsController < ApplicationController
   # GET /mentions/fetch
   def fetch
     # logger.debug "ARGUMENTS #{fetch_params}"
-    new_mentions = TwitterClient.mentions_timeline(fetch_params)
+    new_mentions = TwitterClient.mentions_timeline(fetch_params).reverse!
     @new_mentions = []
     new_mentions.each_index do |i|
+      # logger.debug "NEW_MENTION_ID #{new_mentions[i].id}"
       @new_mentions[i] = create new_mentions[i]
     end
-    # logger.debug "NEW_MENTIONS #{@new_mentions}"
   end
 
   def reply
