@@ -1,0 +1,18 @@
+<li class="mention well" data-tweet-id="<%= mention.tweet_id %>">
+  <div class="user" data-user-screen-name="<%= mention.screen_name %>">
+    <a href="<%= Twitter_uri %>/<%= mention.screen_name %>" data-user-id="<%= mention.user_id %>">
+      <img class="profile-img img-thumbnail" src="<%= mention.profile_image_url %>" alt="">
+      <strong class="name"><%= mention.name %></strong>
+      <span>@<strong class="screen-name"><%= mention.screen_name %></strong></span>
+    </a>
+    <a href="<%= Twitter_uri %>/<%= mention.screen_name %>/status/<%= mention.tweet_id %>" class="date" title="<%= mention.l_mentioned_at %>">
+      <%= mention.l_mentioned_at %>
+    </a>
+  </div>
+
+  <p class="text"><%= mention.text %> </p>
+  <p>
+    <button type="button" class="btn btn-default">Reply</button>
+  </p>
+  <div class="reply"></div>
+</li>

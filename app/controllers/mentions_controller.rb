@@ -5,7 +5,11 @@ class MentionsController < ApplicationController
   # GET /mentions.json
   def index
     @mentions = Mention.all.order(tweet_id: :desc)
+    @mentions.each do |m|
+      m.l_mentioned_at= l(m.mentioned_at, format: :short)
+    end
     # logger.debug "MENTIONS INDEX #{@mentions.count}"
+    @template_mention = Mention.new
   end
 
   # GET /mentions/fetch

@@ -4,4 +4,5 @@ class Mention < ActiveRecord::Base
 	validates :text, length: { maximum: 140 }
 	validates :profile_image_url, length: { maximum: 2000 }
 	validates_uniqueness_of :tweet_id
+	attr_accessor :l_mentioned_at
 end
