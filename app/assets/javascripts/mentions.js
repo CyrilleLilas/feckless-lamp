@@ -50,7 +50,7 @@ $(function () {
 			textarea = $('textarea[name="reply"]', replyForm);
 
 		textarea.val('@' + $('.user', mention).data('user-screen-name') + ' ');
-		replyForm.insertAfter(this);
+		replyForm.appendTo($('.reply', mention));
 		textarea.caretToEnd();
 	}
 

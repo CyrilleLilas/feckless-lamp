@@ -1,27 +1,32 @@
-<h1>Listing mentions</h1>
-  <a class="fetch" href="/mentions/fetch">Fetch</a>
+<div class="container">
+  <h1>Listing mentions</h1>
+  <a class="fetch btn btn-default" role="button" href="/mentions/fetch">Fetch latest mentions</a>
+  <hr/>
 
-  <div class="mentions">
+  <ul class="mentions list-unstyled col-md-6 col-sm-12">
 
     <% @mentions.each do |mention| %>
-<div class="mention" data-tweet-id="<%= mention.tweet_id %>">
+<li class="mention well" data-tweet-id="<%= mention.tweet_id %>">
   <div class="user" data-user-screen-name="<%= mention.screen_name %>">
-      <a href="<%= Twitter_uri %>/<%= mention.screen_name %>" data-user-id="<%= mention.user_id %>">
-        <img src="<%= mention.profile_image_url %>" alt="">
-        <strong class="name"><%= mention.name %></strong>
-        <span>@<strong class="screen-name"><%= mention.screen_name %></strong></span>
-      </a>
-      <a href="<%= Twitter_uri %>/<%= mention.screen_name %>/status/<%= mention.tweet_id %>" class="date" title="<%= l mention.mentioned_at %>">
-        <%= l(mention.mentioned_at, format: :short) %>
-      </a>
+    <a href="<%= Twitter_uri %>/<%= mention.screen_name %>" data-user-id="<%= mention.user_id %>">
+      <img class="profile-img img-thumbnail" src="<%= mention.profile_image_url %>" alt="">
+      <strong class="name"><%= mention.name %></strong>
+      <span>@<strong class="screen-name"><%= mention.screen_name %></strong></span>
+    </a>
+    <a href="<%= Twitter_uri %>/<%= mention.screen_name %>/status/<%= mention.tweet_id %>" class="date" title="<%= l mention.mentioned_at %>">
+      <%= l(mention.mentioned_at, format: :short) %>
+    </a>
   </div>
 
-  <p><%= mention.text %> </p>
-  <button type="button">Reply</button>
-</div>
+  <p class="text"><%= mention.text %> </p>
+  <p>
+    <button type="button" class="btn btn-default">Reply</button>
+  <p>
+  <div class="reply"></div>
+</li>
     <% end %>
 
-  </div>
+  </ul>
 
   <div class="hidden" id="template">
     <div class="mention" data-tweet-id="">
@@ -39,7 +44,11 @@
 
     <%= form_tag("/mentions/reply", id: "replyForm") do %>
       <input type="hidden" name="in_reply_to_status_id"/>
-      <textarea name="reply"></textarea>
-      <%= submit_tag 'Validate' %>
+      <div class="form-group">
+        <textarea name="reply" class="form-control" rows="3"></textarea>
+      </div>
+      <%= submit_tag('Tweet', class: "tweet-btn btn btn-default") %>
+      <span class="count">140</span>
     <% end %>
   </div>
+</div>
