@@ -33,9 +33,12 @@
 											$('.no-mention-warning').addClass('hidden');
 										}
 
+										$('#error_explanation').addClass('hidden');
 									},
 									error: function () {
-										console.log ('http request error');
+										$('.no-mention-warning').addClass('hidden');
+										$('#error_explanation').text("error while trying to fetch mentions")
+											.removeClass('hidden');
 									},
 								 });
 		event.preventDefault();
