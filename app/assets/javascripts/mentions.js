@@ -1,18 +1,18 @@
-$(document).on('page:load', function () {
-	console.log('jquery is there');
-});
+(function () {
 
-$(function () {
 	var twitterURI = 'http://twitter.com/';
 
 	function eventListeners() {
 		$('.fetch-btn').click(fetchMentions);
 		$('.mentions').on('click', '.reply-btn', showReplyForm);
 		$('#replyForm').submit(submitReply);
-		$('textarea[name="reply"]').click(updateCounter).keydown(updateCounter).on('paste', 
-			function (event) {
-				console.log(event);
-				setTimeout(updateCounter.apply(this), 0);
+		$('textarea[name="reply"]').click(updateCounter).change(updateCounter).keydown(updateCounter).on('paste', 
+			function () {
+				var textarea = this;
+
+				setTimeout(function () {
+					updateCounter.apply(textarea);
+				}, 0);
 			});
 	}
 
@@ -26,6 +26,13 @@ $(function () {
 										for (i = 0; i < data.length; i += 1) {
 											new Mention(data[i]).add();
 										}
+
+										if (data.length === 0) {
+											$('.no-mention-warning').removeClass('hidden');
+										} else {
+											$('.no-mention-warning').addClass('hidden');
+										}
+
 									},
 									error: function () {
 										console.log ('http request error');
@@ -101,9 +108,6 @@ $(function () {
 		this.add = add;
 	}
 
-	eventListeners();
-});
-
-(function () {
-
+	$(eventListeners);
+	$(document).on('page:load', eventListeners);
 }());

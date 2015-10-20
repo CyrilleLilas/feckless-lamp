@@ -6,7 +6,11 @@ class MentionsController < ApplicationController
   end
 
   def fetch
-    new_mentions = TwitterClient.mentions_timeline(fetch_params).reverse!
+    options = fetch_params
+    if options[:since_id] === ""
+      options = {}
+    end
+    new_mentions = TwitterClient.mentions_timeline(options).reverse!
     @new_mentions = []
     new_mentions.each_index do |i|
       @new_mentions[i] = create new_mentions[i]
