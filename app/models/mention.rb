@@ -1,4 +1,5 @@
 class Mention < ActiveRecord::Base
+	validates :name, :screen_name, :text, :tweet_id, :mentioned_at, presence: true
 	validates :name, length: { maximum: 20 }
 	validates :screen_name, length: { maximum: 15 }
 	validates :text, length: { maximum: 140 }
