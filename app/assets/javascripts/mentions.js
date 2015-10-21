@@ -6,14 +6,8 @@
 		$('.fetch-btn').click(fetchMentions);
 		$('.mentions').on('click', '.reply-btn', showReplyForm);
 		$('#replyForm').submit(submitReply);
-		$('textarea[name="reply"]').click(updateCounter).change(updateCounter).keydown(updateCounter).on('paste', 
-			function () {
-				var textarea = this;
-
-				setTimeout(function () {
-					updateCounter.apply(textarea);
-				}, 0);
-			});
+		$('textarea[name="reply"]').keydown(updateCounter).on('paste', updateCounter);
+			
 	}
 
 	function fetchMentions(event) {
@@ -45,7 +39,11 @@
 	}
 
 	function updateCounter() {
-		renderCharsLimit($(this).closest('form'));
+		var textarea = this;
+
+		setTimeout(function () {
+			renderCharsLimit($(textarea).closest('form'));
+		}, 0);
 	}
 
 	function renderCharsLimit($form) {
