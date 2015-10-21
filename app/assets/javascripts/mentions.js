@@ -111,4 +111,12 @@
 
 	$(eventListeners);
 	$(document).on('page:load', eventListeners);
+
+	/*-----BEGIN TESTS-----*/
+	/* Strip out this code before deployment with the build tool */
+	_test_only_ = {
+		Mention: Mention,
+		renderCharsLimit: renderCharsLimit
+	};
+	/*-----END TESTS-----*/
 }());
