@@ -1,4 +1,5 @@
 class Mention < ActiveRecord::Base
+	include Twitter::Autolink
 	validates :name, :screen_name, :text, :tweet_id, :mentioned_at, presence: true
 	validates :name, length: { maximum: 20 }
 	validates :screen_name, length: { maximum: 15 }
@@ -10,5 +11,8 @@ class Mention < ActiveRecord::Base
 			l = I18n.l(self.mentioned_at, format: :short)
 		end
 		l || DateTime.new
+	end
+	def parsed_text
+		auto_link(text).to_s.html_safe
 	end
 end

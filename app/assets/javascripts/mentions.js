@@ -104,7 +104,7 @@
 		$('.name', $this).text(mention.name);
 		$('.screen-name', $this).text(mention.screen_name);
 		$('.date', $this).text(mention.l_mentioned_at).prop('href', twitterURI + mention.screen_name + '/status/' + mention.tweet_id);
-		$('.text', $this).text(mention.text);
+		$('.text', $this).html(mention.text);
 
 		this.add = add;
 	}

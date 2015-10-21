@@ -30,6 +30,9 @@ gem 'jbuilder', '~> 1.2'
 # Twitter API
 gem 'twitter'
 
+# Parse tweets and generate links
+gem 'twitter-text'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -46,3 +49,8 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+# Qunit
+group :development, :test do
+  gem "qunit-rails"
+end
