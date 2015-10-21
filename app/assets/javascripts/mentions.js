@@ -103,7 +103,7 @@
 		$('.user img', $this).prop('src', mention.profile_image_url);
 		$('.name', $this).text(mention.name);
 		$('.screen-name', $this).text(mention.screen_name);
-		$('.date', $this).text(mention.l_mentioned_at).prop('href', twitterURI + mention.screen_name + '/status/' + mention.tweet_id);
+		$('.date', $this).html(mention.l_mentioned_at).prop('href', twitterURI + mention.screen_name + '/status/' + mention.tweet_id);
 		$('.text', $this).html(mention.text);
 
 		this.add = add;

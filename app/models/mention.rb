@@ -12,6 +12,7 @@ class Mention < ActiveRecord::Base
 		end
 		l || DateTime.new
 	end
+	
 	def parsed_text
 		auto_link(text).to_s.html_safe
 	end

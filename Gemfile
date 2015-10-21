@@ -33,6 +33,9 @@ gem 'twitter'
 # Parse tweets and generate links
 gem 'twitter-text'
 
+# Display local times client-side
+gem 'local_time'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

@@ -6,7 +6,7 @@
       <span>@<strong class="screen-name"><%= mention.screen_name %></strong></span>
     </a>
     <a href="<%= Twitter_uri %>/<%= mention.screen_name %>/status/<%= mention.tweet_id %>" class="date">
-      <%= mention.l_mentioned_at %>
+      <%= local_time(mention.l_mentioned_at, format: '%B %e, %H:%M') %>
     </a>
   </div>
 
