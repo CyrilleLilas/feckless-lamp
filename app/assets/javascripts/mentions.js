@@ -9,30 +9,38 @@
 		$('textarea[name="reply"]').keydown(updateCounter).on('paste', updateCounter);
 	}
 
+	/**
+	* Request the server for new mentions ;
+	* Display new mentions, or a warning if there are no new mentions available.
+	*/
 	function fetchMentions(event) {
+
+		function onSuccess(data) {
+			var i;
+ 
+			for (i = 0; i < data.length; i += 1) {
+				new Mention(data[i]).add();
+			}
+
+			if (data.length === 0) {
+				$('.no-mention-warning').removeClass('hidden');
+			} else {
+				$('.no-mention-warning').addClass('hidden');
+			}
+
+			$('#error_explanation').addClass('hidden');
+		}
+
+		function onError() {
+			$('.no-mention-warning').addClass('hidden');
+			$('#error_explanation').removeClass('hidden');
+		}
+
 		$.ajax('/mentions/fetch', { dataType: 'json',
-					               data: { since_id: $('.mention:first').data('tweet-id') },
-					               type: 'post',
-					               success: function (data) {
-					                 var i;
- 
-					                 for (i = 0; i < data.length; i += 1) {
-					                   	new Mention(data[i]).add();
-					                 }
- 
-					                 if (data.length === 0) {
-					                   	$('.no-mention-warning').removeClass('hidden');
-					                 } else {
-					                   	$('.no-mention-warning').addClass('hidden');
-					                 }
- 
-					                 $('#error_explanation').addClass('hidden');
-					               },
-					               error: function () {
-					                 $('.no-mention-warning').addClass('hidden');
-					                 $('#error_explanation').removeClass('hidden');
-					               },
-					             });
+					                data: { since_id: $('.mention:first').data('tweet-id') },
+					                type: 'post',
+					                success: onSuccess,
+					                error: onError });
 		event.preventDefault();
 	}
 
