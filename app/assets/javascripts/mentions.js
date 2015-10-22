@@ -17,21 +17,20 @@
 					                 var i;
  
 					                 for (i = 0; i < data.length; i += 1) {
-					                   new Mention(data[i]).add();
+					                   	new Mention(data[i]).add();
 					                 }
  
 					                 if (data.length === 0) {
-					                   $('.no-mention-warning').removeClass('hidden');
+					                   	$('.no-mention-warning').removeClass('hidden');
 					                 } else {
-					                   $('.no-mention-warning').addClass('hidden');
+					                   	$('.no-mention-warning').addClass('hidden');
 					                 }
  
 					                 $('#error_explanation').addClass('hidden');
 					               },
 					               error: function () {
 					                 $('.no-mention-warning').addClass('hidden');
-					                 $('#error_explanation').text("error while trying to fetch mentions")
-					                   .removeClass('hidden');
+					                 $('#error_explanation').removeClass('hidden');
 					               },
 					             });
 		event.preventDefault();

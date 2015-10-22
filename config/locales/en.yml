@@ -20,4 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  index:
+    header: "Mentions list"
+    fetch_btn: "Fetch latest mentions"
+    reply_btn: "Reply"
+    no_more_mentions: "No more mentions for the moment !"
+    fetch_error: "An error occured while trying to fetch the new mentions"  

@@ -1,8 +1,8 @@
 <div class="container">
-  <h1>Listing mentions</h1>
-  <a class="btn btn-default fetch-btn" role="button" href="/mentions/fetch">Fetch latest mentions</a>
-  <span class="text-warning no-mention-warning hidden">No more mentions for the moment !</span>
-  <span id="error_explanation" class="text-danger hidden"></span>
+  <h1><%= t 'index.header' %></h1>
+  <a class="btn btn-default fetch-btn" role="button" href="/mentions/fetch"><%= t 'index.fetch_btn' %></a>
+  <span class="text-warning no-mention-warning hidden"><%= t 'index.no_more_mentions' %></span>
+  <span id="error_explanation" class="text-danger hidden"><%= t 'index.fetch_error' %></span>
   <hr/>
 
   <ul class="mentions list-unstyled col-md-6 col-sm-12">
