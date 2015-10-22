@@ -57,7 +57,7 @@
 		var textarea = $('textarea[name="reply"]', $form),
 			countElem = $('span.count', $form),
 			remainingChars = 140 - textarea.val().length,
-			isLimitExceded = remainingChars <= 0;
+			isLimitExceded = remainingChars < 0;
 
 		countElem.text(remainingChars)
 		  	.toggleClass('text-danger', isLimitExceded);
