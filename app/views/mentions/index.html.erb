@@ -1,0 +1,26 @@
+<div class="container">
+  <h1><%= t 'index.header' %></h1>
+  <a class="btn btn-default fetch-btn" role="button" href="/mentions/fetch"><%= t 'index.fetch_btn' %></a>
+  <span class="text-warning no-mention-warning hidden"><%= t 'index.no_more_mentions' %></span>
+  <span id="error_explanation" class="text-danger hidden"><%= t 'index.fetch_error' %></span>
+  <hr/>
+
+  <ul class="mentions list-unstyled col-md-6 col-sm-12">
+    <% @mentions.each do |mention| %>
+      <%= render partial: 'mention', locals: { mention: mention } %>
+    <% end %>
+  </ul>
+
+  <div class="hidden" id="template">
+    <%= render partial: 'mention', locals: { mention: @template_mention } %>
+
+    <%= form_tag("/mentions/reply", id: "replyForm") do %>
+      <input type="hidden" name="in_reply_to_status_id"/>
+      <div class="form-group">
+        <textarea name="reply" class="form-control" rows="3"></textarea>
+      </div>
+      <%= submit_tag('Tweet', class: "tweet-btn btn btn-default") %>
+      <span class="count">140</span>
+    <% end %>
+  </div>
+</div>
