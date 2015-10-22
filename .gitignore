@@ -16,4 +16,4 @@
 /tmp
 
 # Ignore Twitter initializer to prevent access tokens disclosing
-#/config/initializers/twitter.rb
+/config/initializers/twitter.rb
