@@ -1,7 +1,5 @@
 (function () {
 
-	var twitterURI = 'http://twitter.com/';
-
 	function eventListeners() {
 		$('.fetch-btn').click(fetchMentions);
 		$('.mentions').on('click', '.reply-btn', showReplyForm);
@@ -16,19 +14,13 @@
 	function fetchMentions(event) {
 
 		function onSuccess(data) {
-			var i;
- 
-			for (i = 0; i < data.length; i += 1) {
-				new Mention(data[i]).add();
-			}
-
-			if (data.length === 0) {
+			if (!$.trim(data)) {
 				$('.no-mention-warning').removeClass('hidden');
 			} else {
 				$('.no-mention-warning').addClass('hidden');
 			}
 
-			$('#error_explanation').addClass('hidden');
+			$('.mentions').prepend(data);
 		}
 
 		function onError() {
@@ -36,8 +28,7 @@
 			$('#error_explanation').removeClass('hidden');
 		}
 
-		$.ajax('/mentions/fetch', { dataType: 'json',
-					                data: { since_id: $('.mention:first').data('tweet-id') },
+		$.ajax('/mentions/fetch', { data: { since_id: $('.mention:first').data('tweet-id') },
 					                type: 'post',
 					                success: onSuccess,
 					                error: onError });
@@ -112,46 +103,12 @@
 		return submit;
 	}
 
-	/**
-	* Fills a mention template.
-	*/
-	function Mention(mention) {
-		var $this;
-
-		function add() {
-			$this.prependTo($('.mentions'));
-		}
-
-		if (typeof mention === 'object' && typeof mention.tweet_id === 'string'
-				&& typeof mention.name === 'string' && typeof mention.screen_name === 'string'
-				&& typeof mention.profile_image_url === 'string' && typeof mention.l_mentioned_at === 'string'
-				&& typeof mention.text === 'string' && /^http:\/\//.test(mention.profile_image_url)
-				&& $(mention.l_mentioned_at).is('time')) {
-		} else {
-			throw "invalid Mention object";    	
-		}
-
-		$this = $('#template').children('.mention').clone();
-
-		$this.data('tweet-id', mention.tweet_id);
-		$('.user', $this).data('user-screen-name', mention.screen_name);
-		$('a.profile', $this).prop('href', twitterURI + mention.screen_name);
-		$('.user img', $this).prop('src', mention.profile_image_url);
-		$('.name', $this).text(mention.name);
-		$('.screen-name', $this).text(mention.screen_name);
-		$('.date', $this).html(mention.l_mentioned_at).prop('href', twitterURI + mention.screen_name + '/status/' + mention.tweet_id);
-		$('.text', $this).html(mention.text);
-
-		this.add = add;
-	}
-
 	$(eventListeners);
 	$(document).on('page:load', eventListeners);
 
 	/*-----BEGIN TESTS-----*/
 	/* Strip out this code before deployment with the build tool */
 	_test_only_ = {
-		Mention: function (data) { return new Mention(data) },
 		renderCharsLimit: renderCharsLimit
 	};
 	/*-----END TESTS-----*/

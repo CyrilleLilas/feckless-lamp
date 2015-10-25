@@ -6,9 +6,7 @@
   <hr/>
 
   <ul class="mentions list-unstyled col-md-6 col-sm-12">
-    <% @mentions.each do |mention| %>
-      <%= render partial: 'mention', locals: { mention: mention } %>
-    <% end %>
+    <%= render @mentions %>
   </ul>
 
   <div class="hidden" id="template">

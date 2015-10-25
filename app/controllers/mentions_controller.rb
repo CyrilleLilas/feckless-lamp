@@ -10,11 +10,12 @@ class MentionsController < ApplicationController
     if options[:since_id] === ""
       options = {}
     end
-    new_mentions = TwitterClient.mentions_timeline(options).reverse!
-    @new_mentions = []
+    new_mentions = TwitterClient.mentions_timeline(options)
+    @mentions = []
     new_mentions.each_index do |i|
-      @new_mentions[i] = create new_mentions[i]
+      @mentions[i] = create new_mentions[i]
     end
+    render @mentions
   end
 
   def reply
