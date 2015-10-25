@@ -2,7 +2,6 @@ class MentionsController < ApplicationController
 
   def index
     @mentions = Mention.all.order(tweet_id: :desc)
-    @template_mention = Mention.new
   end
 
   def fetch

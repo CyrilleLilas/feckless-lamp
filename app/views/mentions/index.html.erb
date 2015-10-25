@@ -9,9 +9,7 @@
     <%= render @mentions %>
   </ul>
 
-  <div class="hidden" id="template">
-    <%= render partial: 'mention', locals: { mention: @template_mention } %>
-
+  <div class="hidden">
     <%= form_tag("/mentions/reply", id: "replyForm") do %>
       <input type="hidden" name="in_reply_to_status_id"/>
       <div class="form-group">
